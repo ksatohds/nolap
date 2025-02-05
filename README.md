@@ -12,8 +12,7 @@ library(nolap)
 
 The function **nolap** divides a scatterplot of x,y vectors into a grid and moves the data points so that one sample fits on each grid. The finer the grid, the fewer the moves.
 
-## Example
-
+# Example 1.
 ``` r
 #install.packages("remotes")
 #remotes::install_github("ksatohds/nolap")
@@ -35,3 +34,18 @@ arrows(x,y,res$x,res$y,length=0.1,col=ifelse(res$is.moved,2,4))
 legend("topleft",legend=c("moved","stay"),fill=c(2,4))
 ```
 
+# Example 2.
+``` r
+#install.packages("remotes")
+#remotes::install_github("ksatohds/nolap")
+library(nolap)
+loc <- cmdscale(eurodist)
+x <- loc[, 1]
+y <- -loc[, 2]
+res <- nolap(x=x,y=y,xdiv=8,ydiv=8,seed=77)
+plot(x,y,type="n")
+for(i in 1:nrow(loc)){
+  if(res$is.moved[i]) arrows(x[i],y[i],res$x[i],res$y[i],col=2,code=0)
+  text(res$x[i],res$y[i],rownames(loc)[i],cex=1)
+}
+```
