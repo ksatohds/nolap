@@ -40,7 +40,7 @@
 #' arrows(x,y,res$x,res$y,length=0.1,col=ifelse(res$is.moved,2,4))
 #' legend("topleft",legend=c("moved","stay"),fill=c(2,4))
 
-nolap <- function(x,y,xdiv=100,ydiv=70,xlim=range(x),ylim=range(y),seed=NULL,nseed=10){
+nolap <- function(x,y,xdiv=70,ydiv=50,xlim=range(x),ylim=range(y),seed=NULL,nseed=10){
   makedxy <- function(x,y,xdiv,ydiv,xlim,ylim){
     xr <- xlim
     yr <- ylim

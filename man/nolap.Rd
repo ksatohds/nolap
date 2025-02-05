@@ -7,8 +7,8 @@
 nolap(
   x,
   y,
-  xdiv = 100,
-  ydiv = 70,
+  xdiv = 70,
+  ydiv = 50,
   xlim = range(x),
   ylim = range(y),
   seed = NULL,
