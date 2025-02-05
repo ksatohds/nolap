@@ -101,7 +101,6 @@ nolap <- function(x,y,xdiv=100,ydiv=70,xlim=range(x),ylim=range(y),seed=NULL,nse
     for(i in 1:nrow(dij))totaldist <- totaldist+distij(dij[i,1:2],dij[i,3:4])
     return(list(dxy=d,dij=dij,totaldist=totaldist))
   }
-  #
   resxy <- makedxy(x=x,y=y,xdiv=xdiv,ydiv=ydiv,xlim=xlim,ylim=ylim)
   xi <- resxy$xlims
   yi <- resxy$ylims
