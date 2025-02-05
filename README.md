@@ -10,7 +10,7 @@ library(nolap)
 
 # Functions
 
-The function is **nolap**.
+The function **nolap** divides a scatterplot of x,y vectors into a grid and moves the data points so that one sample fits on each grid. The finer the grid, the fewer the moves.
 
 ## Example
 

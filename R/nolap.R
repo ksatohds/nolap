@@ -124,9 +124,9 @@ nolap <- function(x,y,xdiv=100,ydiv=70,xlim=range(x),ylim=range(y),seed=NULL,nse
     bestseed <- seed
   }
   ressp <- searchspace(resxy$dxy,resxy$dij,seed=bestseed)
-  originalij <- resxy$dij
-  optimizedij <- ressp$dij
-  index <- ifelse(originalij$i0==optimizedij$i & originalij$j0==optimizedij$j,TRUE,FALSE)
+  oij <- resxy$dij
+  dij <- ressp$dij
+  index <- ifelse(oij$i0==dij$i & oij$j0==dij$j,TRUE,FALSE)
   return(list(xleft=xi[dij$i,1],
               ybottom=yi[dij$j,1],
               xright=xi[dij$i,2],
