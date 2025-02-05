@@ -93,5 +93,6 @@ for(i in 1:length(u)){
               resxy$xright[i],
               resxy$ytop[i])    
 }
-legend("topright",legend=0:9,fill=mycol[0:9+1],cex=2)
+legend("topright",legend=0:9,fill=mycol[0:9+1])
 ```
+
