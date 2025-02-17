@@ -8,6 +8,8 @@ remotes::install_github("ksatohds/nolap")
 library(nolap)
 ```
 
+Package Archive File (.tar.gz) is also available on [Dropbox](https://www.dropbox.com/scl/fo/1jxzzfqz9xsl3wlzwm3pj/ACYDNzn-h54VqgAngTKVyc0?rlkey=i5bcup2qxzwqgles27ke0f9ab&st=mdbkongw&dl=0)
+
 # Function
 
 The function **nolap** divides a scatterplot of x,y vectors into a grid and moves the data points so that one sample fits on each grid. The finer the grid, the fewer the moves.
