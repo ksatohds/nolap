@@ -21,8 +21,9 @@
 #' @return y: y-coordinate of the center of the rectangular region
 #' @return xlims: x-axis dividing interval
 #' @return ylims: y-axis dividing interval
-#' @return ssd: sum of squared total distance moved
+#' @return ssd: total distance moved (sum of Euclidean distances)
 #' @return seed: The initial value of the specified random number or the best initial value obtained by trial
+#' @return is.moved: logical vector indicating whether each data point was moved from its original cell
 #' @export
 #' @examples
 #' x <- cars$speed
@@ -44,29 +45,15 @@ nolap <- function(x,y,xdiv=70,ydiv=50,xlim=range(x),ylim=range(y),seed=NULL,nsee
   makedxy <- function(x,y,xdiv,ydiv,xlim,ylim){
     xr <- xlim
     yr <- ylim
-    xd <- diff(xr)/xdiv
-    yd <- diff(yr)/ydiv
+    xbreaks <- seq(xr[1],xr[2],length.out=xdiv+1)
+    ybreaks <- seq(yr[1],yr[2],length.out=ydiv+1)
+    xlims <- cbind(xbreaks[1:xdiv],xbreaks[2:(xdiv+1)])
+    ylims <- cbind(ybreaks[1:ydiv],ybreaks[2:(ydiv+1)])
+    xi <- findInterval(x,xbreaks,rightmost.closed=TRUE)
+    yj <- findInterval(y,ybreaks,rightmost.closed=TRUE)
     dxy <- matrix(0,nrow=xdiv,ncol=ydiv)
-    xlims <- NULL
-    for(i in 1:xdiv) xlims <- rbind(xlims,c((i-1)*xd+xr[1],i*xd+xr[1]))
-    ylims <- NULL
-    for(j in 1:ydiv) ylims <- rbind(ylims,c((j-1)*yd+yr[1],j*yd+yr[1]))
-    dij <- NULL
-    for(k in 1:length(x))
-      for(i in 1:xdiv)
-        for(j in 1:ydiv){
-          if(i==xdiv) dx <- 0.01*diff(xr) else dx <- 0
-          if(j==ydiv) dy <- 0.01*diff(yr) else dy <- 0
-          if(x[k]>=xlims[i,1]&x[k]<xlims[i,2]+dx&
-             y[k]>=ylims[j,1]&y[k]<ylims[j,2]+dy){
-            dxy[i,j] <- dxy[i,j]+1
-            dij <- rbind(dij,c(i,j,i,j,k))
-          }
-        }
-    colnames(dij) <- c("i0","j0","i","j","id")
-    dij <- as.data.frame(dij)
-    index <- order(dij$id)
-    dij <- dij[index,]
+    for(k in seq_along(x)) dxy[xi[k],yj[k]] <- dxy[xi[k],yj[k]]+1
+    dij <- data.frame(i0=xi,j0=yj,i=xi,j=yj,id=seq_along(x))
     return(list(dij=dij,dxy=dxy,xlims=xlims,ylims=ylims))
   }
   roundfreq <- function(d,ij){
@@ -89,8 +76,8 @@ nolap <- function(x,y,xdiv=70,ydiv=50,xlim=range(x),ylim=range(y),seed=NULL,nsee
       ij <- which(d==max(d),arr.ind=T)[1,]
       ijr <- roundfreq(d,ij)
       index <- which(ijr$n==min(ijr$n))
-      index <- sample(index,1)
-      ijt <- ijr[index,1:2] # 移動するマス
+      index <- index[sample.int(length(index),1)]
+      ijt <- ijr[index,1:2] # target cell to move to
       ijt <- unlist(as.vector(ijt))
       dijc <- dij[dij$i==ij[1]&dij$j==ij[2],]
       distances <- 0*(1:nrow(dijc))
@@ -110,8 +97,7 @@ nolap <- function(x,y,xdiv=70,ydiv=50,xlim=range(x),ylim=range(y),seed=NULL,nsee
   xi <- resxy$xlims
   yi <- resxy$ylims
   if(xdiv*ydiv<length(x)){
-    warning("Not enough space! Set larger xdiv and ydiv.")
-    stop()
+    stop("Not enough space! Set larger xdiv and ydiv.")
   }
   if(is.null(seed)){
     totaldists <- 0*1:nseed

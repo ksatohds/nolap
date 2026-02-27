@@ -49,9 +49,11 @@ xlims: x-axis dividing interval
 
 ylims: y-axis dividing interval
 
-ssd: sum of squared total distance moved
+ssd: total distance moved (sum of Euclidean distances)
 
 seed: The initial value of the specified random number or the best initial value obtained by trial
+
+is.moved: logical vector indicating whether each data point was moved from its original cell
 }
 \description{
 \code{nolap} This package aims to optimize arrangement by minimizing the movement of data points so that they do not overlap.
