@@ -4,6 +4,8 @@ Title: Arrange data points so that they do not overlap in a scatter plot
 Version: 0.0.1
 Author: Kenichi Satoh
 Maintainer: Kenichi Satoh <kenichi-satoh@biwako.shiga-u.ac.jp>
+URL: https://github.com/ksatohds/nolap, https://ksatohds.github.io/nolap/
+BugReports: https://github.com/ksatohds/nolap/issues
 Description: This package aims to optimize arrangement by minimizing the movement of data points so that they do not overlap.
 License: MIT + file LICENSE
 Encoding: UTF-8
